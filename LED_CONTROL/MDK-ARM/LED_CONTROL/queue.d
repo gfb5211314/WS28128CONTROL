@@ -1,0 +1,16 @@
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
+led_control\queue.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+led_control\queue.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+led_control\queue.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+led_control\queue.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+led_control\queue.o: ../Inc/FreeRTOSConfig.h
+led_control\queue.o: ../Inc/main.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+led_control\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
