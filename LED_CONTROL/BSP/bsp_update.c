@@ -10,6 +10,7 @@
 #include "bsp_usart.h"
 #include "esp8266.h"
 #include "bsp_upgrade.h"
+#include "bsp_lcd_gui.h"
 /**************************************************
                   分区划分
 model :  stm32f103c8t6       flash :   64K
@@ -206,6 +207,8 @@ extern osThreadId myTask03Handle;
 extern uint8_t   ws28128_color_buf[1000][3];
 extern USART_RECEIVETYPE  UsartType3;
 extern upgrade_type  logo_upgrade;
+extern wifi_type   wifi8266;
+extern DMA_HandleTypeDef hdma_usart3_tx;
 typedef struct
 {
     uint8_t  index;
@@ -216,13 +219,15 @@ void read_mode_start()
 {
 STMFLASH_Read(mode_addr, (uint16_t *)&system_mode.pattern_flay,1); //开机模式
 }
-
+uint8_t wifilist[500];
+char data_conmand[30];
+uint16_t wifilist_len;
 /**************************************************************************
                     协议切换
 **************************************************************************/
 #define  esp32_wifi_on         0
-#define  e61_433_on            1
-#define  esp8266_wifi_on       0
+#define  e61_433_on            0
+#define  esp8266_wifi_on       1
 /*******************************************************
       第一步   编写接收数据函数处理函数
 ********************************************************/
@@ -258,39 +263,72 @@ void  Usart_Logo_data(uint8_t * p_buf,uint8_t * tep_buf,uint16_t r_buf_lenght)
         }
 #endif
 #if  esp8266_wifi_on
-    //the fast plan 
+      r_buf_lenght = atoi((const char *)tep_buf + 9);
+//        printf("r_buf_lenght=%d\r\n",r_buf_lenght);
+//				 printf("%s\r\n",tep_buf);
+//检查AT返回指令匹配
+	     if(strstr((const char*)UsartType3.RX_pData,(const char*)"+CWLAP:"))
+			 {
+				  char string_a[2];
+				 wifilist_len=UsartType3.RX_Size;
+			   for(uint16_t i=0;i<UsartType3.RX_Size;i++)
+			   {
+			          wifilist[i]=UsartType3.RX_pData[i];
+			   }
+			      printf("wifilist=%s",wifilist);
+				 //精华部分
+				  sprintf(string_a,"%d", wifilist_len);
+		       strcpy (data_conmand,"AT+CIPSEND=0,");
+		       strcat (data_conmand,string_a); 
+				   strcat (data_conmand,"\r\n"); 
+	      if(atk_8266_send_cmd(data_conmand,">",10)==0)
+				{
+       
 
-  
-	p_buf=(uint8_t*)esp8266_Capture_data(tep_buf,(uint8_t *)":");
-	 
-			  r_buf_lenght=strlen((char *)p_buf);
-//				printf("r_buf_lenght=%d\r\n",	r_buf_lenght);
-             printf("进入");
-    //the  two plan
-    /* r_buf_lenght = atoi((const char *)tep_buf + 9);
-        printf("r_buf_lenght=%d\r\n",r_buf_lenght);*/
+				}					
+		   }
+			 //可以发送数据>
+			  if(strstr((const char*)UsartType3.RX_pData,(const char*)">"))
+			 {
+				 //填充数据发送
+				  
+     HAL_UART_Transmit_DMA(&huart3, (uint8_t*)wifilist,wifilist_len);
+     while(__HAL_DMA_GET_COUNTER(&hdma_usart3_tx));		 
+		   }
+
         for(uint8_t i=0; i<r_buf_lenght; i++)
         {
             p_buf[i]=tep_buf[i+12];
-
-        }	
+	printf("%02x",p_buf[i]);
+        }
 
 #endif
-  
+  //check  wifi  connect state
+				
    if(strstr((const char*)UsartType3.RX_pData,(const char*)"CLOSED"))
 	 {
-		 
-		  printf("disconnect\r\n");
-		  wifi_state_led(1);  
+		   
+//       	Lcd_Clear(GRAY0);
+ 
+		    wifi8266.wifi_state=0;
+   		 printf("disconnect\r\n");
+		     wifi_state_led(1);  
 	 }
 	 if(strstr((const char*)UsartType3.RX_pData,(const char*)"CONNECT"))
 	 {
-		 printf("connect suceess\r\n");
-		 wifi_state_led(0);
+//		Lcd_Clear(GRAY0);
+		 		 wifi8266.wifi_state=1;
+		 	 printf("connect suceess\r\n");
+				 wifi_state_led(0);
+		 if(atk_8266_send_cmd("AT+CWLAP\r\n","CWLAP",10)==0)
+		 {
+                 
+		 }
+
 	 }
 
     /**********upgrade code***************/
-   if((p_buf[0]==0x7b)&&(p_buf[1]==0xb7)&&(p_buf[r_buf_lenght-3]==0x7b)&&(p_buf[r_buf_lenght-4]==0xb7)&&(p_buf[2]==0x01))
+   if((p_buf[0]==0x7b)&&(p_buf[1]==0xb7)&&(p_buf[r_buf_lenght-3]==0x7b)&&(p_buf[r_buf_lenght-4]==0xb7)&&(p_buf[2]==0x05))
 			 {
 	                   crc_data=Calc_CRC16(p_buf,r_buf_lenght-2);
             printf("upgradeCRC1:%04x\r\n",crc_data);
@@ -326,15 +364,17 @@ void  Usart_Logo_data(uint8_t * p_buf,uint8_t * tep_buf,uint16_t r_buf_lenght)
 								}
 				    }
 			  }
-			 /***********设置esp8266************/
+			 /***********设置esp8266 wifi 去连接************/
        else if((p_buf[0]=='A')&&(p_buf[1]=='T'))
 			 {
 				    p_buf[r_buf_lenght]=0x0d;
 				    p_buf[r_buf_lenght+1]=0x0a;
-              if(atk_8266_send_cmd(p_buf,(uint8_t *)"OK",100)!=0)
+              if(atk_8266_send_cmd(p_buf,(uint8_t *)"OK",100)==0)
 							{
 								printf("设置成功\r\n");
-								
+								    wifi8266.wifi_con_len =r_buf_lenght+1;
+								STMFLASH_Write (wifi8266_password_addr,(uint16_t * )&wifi8266.wifi_con_len,1);
+								STMFLASH_Write (wifi8266_name_addr,(uint16_t * )p_buf,(wifi8266.wifi_con_len/2+1));
 							}
 							else
 							{
@@ -343,10 +383,19 @@ void  Usart_Logo_data(uint8_t * p_buf,uint8_t * tep_buf,uint16_t r_buf_lenght)
 								
 							}
 				}
+			 
+				
+							 //设置 要连接的WIFI 指令
+			  if(strstr((const char*)p_buf,(const char*)"AT+CWJAP"))
+				{
+				   HAL_UART_Transmit_DMA(&huart3, (uint8_t*)p_buf,strlen((char *)p_buf));
+        while(__HAL_DMA_GET_COUNTER(&hdma_usart3_tx));
+		 			
+				}
 ///      ESP8266_unpack_string(UsartType3.RX_pData,UsartType3.RX_Size);
 /************************设置COLOR************************/
-        else if((p_buf[0]==0xff)&&(p_buf[1]==0xfe)&&(p_buf[r_buf_lenght-3]==0xff)&&(p_buf[r_buf_lenght-4]==0xfe)&&(p_buf[2]==0x01))
-        {
+        else if((p_buf[0]==0xff)&&(p_buf[1]==0xfe)&&(p_buf[r_buf_lenght-3]==0xff)&&(p_buf[r_buf_lenght-4]==0xfe)&&(p_buf[2]==0x05))
+         {
 
             crc_data=Calc_CRC16(p_buf,r_buf_lenght-2);
             printf("creamCRC1:%04x\r\n",crc_data);

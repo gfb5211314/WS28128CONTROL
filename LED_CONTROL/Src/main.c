@@ -69,10 +69,14 @@
 #include "cmsis_os.h"
 #include "bsp_tim.h"
 #include "bsp_update.h"
+#include  "esp8266.h"
+#include "stm_flash.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 RTC_HandleTypeDef hrtc;
+
+SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
 DMA_HandleTypeDef hdma_tim2_ch1;
@@ -93,19 +97,7 @@ osThreadId myTask03Handle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-//void SystemClock_Config(void);
-//static void MX_GPIO_Init(void);
-//static void MX_DMA_Init(void);
-//static void MX_TIM2_Init(void);
-//static void MX_USART2_UART_Init(void);
-//static void MX_USART1_UART_Init(void);
-//static void MX_USART3_UART_Init(void);
-//static void MX_RTC_Init(void);
-//void StartDefaultTask(void const * argument);
-//void SystemTask(void const * argument);
-//void Ws2812task(void const * argument);
-//                                    
-//void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
                                 
 
 /* USER CODE BEGIN PFP */
@@ -121,11 +113,12 @@ void MX_RTC_Init(void);
 void StartDefaultTask(void const * argument);
 void SystemTask(void const * argument);
 void Ws2812task(void const * argument);
-                                    
+void MX_SPI1_Init(void);                             
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 extern USART_RECEIVETYPE  UsartType3;
 extern system_mode_type system_mode;
+extern wifi_type   wifi8266;
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -137,13 +130,14 @@ extern system_mode_type system_mode;
  uint8_t onecolor_buf_2[3]={59,93,170};
  uint8_t onecolor_buf_3[3]={249,5,86};
  uint8_t onecolor_buf_4[3]={241,216,128};
+ 
 /* USER CODE END 0 */
 
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-SCB->VTOR = 0x8000000 | (0x2000 & (uint32_t)0x1FFFFF80);
+//SCB->VTOR = 0x8000000 | (0x2000 & (uint32_t)0x1FFFFF80);
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -170,11 +164,19 @@ SCB->VTOR = 0x8000000 | (0x2000 & (uint32_t)0x1FFFFF80);
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   MX_RTC_Init();
-
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-set_time_data(19,6,11,17, 46 ,50);
-
+//set_time_data(19,6,26,18, 04 ,50);
   DMA_USART_IDLE_INIT();
+ read_mode_start();
+	printf("system_mode.pattern_flay=%d\r\n",system_mode.pattern_flay);
+                STMFLASH_Read (wifi8266_password_addr,(uint16_t * )&wifi8266.wifi_con_len,1);
+								printf("wifi8266.wifi_con_len=%d\r\n",wifi8266.wifi_con_len);
+								if(wifi8266.wifi_con_len!=255)
+								{
+								STMFLASH_Read (wifi8266_name_addr,(uint16_t * )wifi8266.name,(wifi8266.wifi_con_len/2+1));
+								}
+				Lcd_Clear(0xffff);			
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -191,15 +193,15 @@ set_time_data(19,6,11,17, 46 ,50);
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of system */
-  osThreadDef(system, SystemTask, osPriorityIdle, 0, 128);
+  osThreadDef(system, SystemTask, osPriorityNormal, 0, 256);
   systemHandle = osThreadCreate(osThread(system), NULL);
 
   /* definition and creation of myTask03 */
-  osThreadDef(myTask03, Ws2812task, osPriorityIdle, 0, 128);
+  osThreadDef(myTask03, Ws2812task, osPriorityNormal, 0, 256);
   myTask03Handle = osThreadCreate(osThread(myTask03), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -276,6 +278,10 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
+    /**Enables the Clock Security System 
+    */
+  HAL_RCC_EnableCSS();
+
     /**Configure the Systick interrupt time 
     */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
@@ -291,153 +297,6 @@ void SystemClock_Config(void)
 
 
 
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-/* StartDefaultTask function */
-void StartDefaultTask(void const * argument)
-{
-
-  /* USER CODE BEGIN 5 */
-//	atk_8266_send_cmd("AT+CWMODE=2\r\n","OK",10);
-printf("½øÈë1");	
-//	atk_8266_send_cmd("AT+CWSAP=\"ESPaa\",\"1234567890\",5,3,5\r\n","OK",10);
-//	atk_8266_send_cmd("AT+CIPMUX=1\r\n","OK",10);
-//	atk_8266_send_cmd("AT+CIPSERVER=1,80\r\n","OK",10);
-  /* Infinite loop */
-  for(;;)
-  {
-//				get_timer();
-		 if(system_mode.pattern_flay==2)
-				{
-					
-					      
-           system_mode_led(2);
-					if(system_mode.set_shade==1)
-					{
-					
-						DMA_WS2812_shade_light(LED_MAX);
-						//¹ì¼£Ò»
-					    
-				
-//					    DMA_WS2812_shade_logo_all(track_2_color_1);
-//						  DMA_WS2812_shade_logo_all(track_2_color_2);
-//						  DMA_WS2812_shade_logo_all(track_2_color_3);
-//						  DMA_WS2812_shade_logo_all(track_2_color_4);
-//						  DMA_WS2812_shade_logo_all(track_2_color_5);
-
-//					    DMA_WS2812_shade_logo_all(track_3_color_1);
-//						  DMA_WS2812_shade_logo_all(track_3_color_2);
-//						  DMA_WS2812_shade_logo_all(track_3_color_3);
-//						  DMA_WS2812_shade_logo_all(track_3_color_4);
-//						  DMA_WS2812_shade_logo_all(track_3_color_5);
-
-//					    DMA_WS2812_shade_logo_all(track_4_color_1);
-//						  DMA_WS2812_shade_logo_all(track_4_color_2);
-//						  DMA_WS2812_shade_logo_all(track_4_color_3);
-//						  DMA_WS2812_shade_logo_all(track_4_color_4);
-//						  DMA_WS2812_shade_logo_all(track_4_color_5);
-
-//					    DMA_WS2812_shade_logo_all(track_5_color_1);
-//						  DMA_WS2812_shade_logo_all(track_5_color_2);
-//						  DMA_WS2812_shade_logo_all(track_5_color_3);
-//						  DMA_WS2812_shade_logo_all(track_5_color_4);
-//						  DMA_WS2812_shade_logo_all(track_5_color_5);
-					}
-					
-				}
-			  else if(system_mode.pattern_flay==3)
-				{
-//					
-					    // system_mode_led(3);
-					   DMA_WS2812_shade_light(LED_MAX);
-					
-				}
-				else if(system_mode.pattern_flay==4)
-				{
-					   system_mode_led(3);
-//					   reset_led_light(); 
-					   DMA_WS2812_shade_light(LED_MAX);
-					
-				}
-    osDelay(1);
-  }
-  /* USER CODE END 5 */ 
-}
-
-/* SystemTask function */
-void SystemTask(void const * argument)
-{
-  /* USER CODE BEGIN SystemTask */
-  /* Infinite loop */
-  for(;;)
-  {
-		  
-	//	arrange_display_two_run(10);
-		Usart_Logo_data(UsartType3.tem_RX_pData,UsartType3.RX_pData,UsartType3.RX_Size);
-    osDelay(1);
-  }
-  /* USER CODE END SystemTask */
-}
-
-/* Ws2812task function */
-void Ws2812task(void const * argument)
-{
-	 
-  /* USER CODE BEGIN Ws2812task */
-	
-	reset_led_light();
-	 read_mode_start();
-	printf("system_mode.pattern_flay=%d\r\n",system_mode.pattern_flay);
-
-		
-	
-	
-	flash_data_to_color_data();	//
-  /* Infinite loop */
-  for(;;)
-  {
-		 if(system_mode.pattern_flay==1)
-				{
-	DMA_WS2812_Ramp(LED_MAX, 255, 1);
-  DMA_WS2812_Ramp(LED_MAX, 255, 2);
-  DMA_WS2812_Ramp(LED_MAX, 255, 3);
-	DMA_WS2812_Rampping(LED_MAX, 255, 2);				   
-//	DMA_WS2812_Rampping_1(LED_MAX, 255, 1);
-//	DMA_WS2812_one_light_run(2, 2);	
-  DMA_WS2812_Run(LED_MAX );	
-	DMA_WS2812_Running(LED_MAX);
-  DMA_WS2812_Running_more(LED_MAX, 720);		
-  arrange_display(LED_MAX);	
- 	arrange_display_two(LED_MAX);
-	ws2812_rand_light(LED_MAX);
-  DMA_WS2812_circulation(LED_MAX);
-	DMA_WS2812_circulation_more(LED_MAX,0);
-  DMA_WS2812_circulation_more(LED_MAX,1);
-	DMA_WS2812_circulation_more(LED_MAX,2);			
-  DMA_WS2812_shade_60_run(LED_MAX,shade_60_buf_1);	
-		osDelay(500);
-  DMA_WS2812_shade_60_run(LED_MAX,shade_60_buf_2);
-		osDelay(500);
-  DMA_WS2812_shade_60_run(LED_MAX,shade_60_buf_3);
-		osDelay(500);
-	DMA_WS2812_shade_60_run(LED_MAX,shade_60_buf_4);	
-		osDelay(500);
-  ws28128_one_color_circulation_run(LED_MAX,onecolor_buf_1);
-    osDelay(500);
-  ws28128_one_color_circulation_run(LED_MAX,onecolor_buf_2);
-    osDelay(500);
-  ws28128_one_color_circulation_run(LED_MAX,onecolor_buf_3);
-    osDelay(500);
-  ws28128_one_color_circulation_run(LED_MAX,onecolor_buf_4);
-    osDelay(500);
-				}     
-    osDelay(1);
-  }
-  /* USER CODE END Ws2812task */
-}
 
 /**
   * @brief  This function is executed in case of error occurrence.

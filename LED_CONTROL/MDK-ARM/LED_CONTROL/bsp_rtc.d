@@ -26,6 +26,12 @@ led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_e
 led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h
 led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h
+led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 led_control\bsp_rtc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+led_control\bsp_rtc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+led_control\bsp_rtc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+led_control\bsp_rtc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\cstdlib
+led_control\bsp_rtc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\cstdio
+led_control\bsp_rtc.o: ..\BSP\bsp_lcd_gui.h

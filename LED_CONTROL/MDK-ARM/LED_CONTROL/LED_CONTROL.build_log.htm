@@ -21,119 +21,49 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.6.0
 Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
-C:\Users\Fubiao.Guo\Desktop\BESTBEW\LED_CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL.uvprojx
-Project File Date:  06/14/2019
+C:\Users\Fubiao.Guo\Desktop\BESTBEW\WS28128CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL.uvprojx
+Project File Date:  06/25/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'LED_CONTROL'
-compiling stm32f1xx_hal_cortex.c...
-compiling stm32f1xx_hal.c...
-compiling stm32f1xx_hal_rcc_ex.c...
-compiling stm32f1xx_hal_rcc.c...
-compiling stm32f1xx_hal_gpio.c...
-compiling stm32f1xx_hal_flash.c...
-compiling stm32f1xx_hal_tim_ex.c...
-compiling stm32f1xx_hal_dma.c...
-compiling stm32f1xx_hal_rtc_ex.c...
-assembling startup_stm32f103xb.s...
-compiling stm32f1xx_hal_flash_ex.c...
-compiling stm32f1xx_hal_gpio_ex.c...
-compiling stm32f1xx_hal_tim.c...
-compiling stm32f1xx_hal_pwr.c...
+Build target 'LED_CONTROL'
 compiling freertos.c...
-compiling stm32f1xx_hal_uart.c...
-compiling bsp_rtc.c...
-compiling bsp_usart.c...
-..\BSP\bsp_usart.c(130): warning:  #1-D: last line of file ends without a newline
-  }
-..\BSP\bsp_usart.c: 1 warning, 0 errors
-compiling system_stm32f1xx.c...
-compiling stm32f1xx_hal_msp.c...
-compiling stm32f1xx_hal_rtc.c...
-compiling stm32f1xx_it.c...
-compiling main.c...
-../Src/main.c(317): warning:  #223-D: function "system_mode_led" declared implicitly
-             system_mode_led(2);
-../Src/main.c(360): warning:  #223-D: function "system_mode_led" declared implicitly
-  					   system_mode_led(3);
-../Src/main.c(392): warning:  #223-D: function "read_mode_start" declared implicitly
-  	 read_mode_start();
-../Src/main.c(404): warning:  #188-D: enumerated type mixed with another type
-  	DMA_WS2812_Ramp(LED_MAX, 255, 1);
-../Src/main.c(405): warning:  #188-D: enumerated type mixed with another type
-    DMA_WS2812_Ramp(LED_MAX, 255, 2);
-../Src/main.c(406): warning:  #188-D: enumerated type mixed with another type
-    DMA_WS2812_Ramp(LED_MAX, 255, 3);
-../Src/main.c(407): warning:  #188-D: enumerated type mixed with another type
-  	DMA_WS2812_Rampping(LED_MAX, 255, 2);				   
-../Src/main.c(416): warning:  #223-D: function "DMA_WS2812_circulation" declared implicitly
-    DMA_WS2812_circulation(LED_MAX);
-../Src/main.c(417): warning:  #223-D: function "DMA_WS2812_circulation_more" declared implicitly
-  	DMA_WS2812_circulation_more(LED_MAX,0);
-../Src/main.c(428): warning:  #223-D: function "ws28128_one_color_circulation_run" declared implicitly
-    ws28128_one_color_circulation_run(LED_MAX,onecolor_buf_1);
-../Src/main.c: 10 warnings, 0 errors
-compiling bsp_gpio.c...
-..\BSP\bsp_gpio.h(11): warning:  #1-D: last line of file ends without a newline
+..\BSP\bsp_lcd_gui.h(20): warning:  #1-D: last line of file ends without a newline
   #endif
-..\BSP\bsp_gpio.c: 1 warning, 0 errors
-compiling bsp_dma.c...
-compiling crc.c...
-compiling bsp_led.c...
-compiling stm_flash.c...
-..\BSP\stm_flash.c(156): warning:  #223-D: function "strcmp" declared implicitly
-      if(strcmp((const char *) p_buf,(const char *)t_p_buf)==0)
-..\BSP\stm_flash.c(158): warning:  #188-D: enumerated type mixed with another type
-          return 1;
-..\BSP\stm_flash.c(163): warning:  #188-D: enumerated type mixed with another type
-          return 0;
-..\BSP\stm_flash.c: 3 warnings, 0 errors
-compiling bsp_commun.c...
-..\BSP\bsp_commun.c(74): warning:  #223-D: function "Ws2812task" declared implicitly
-                          Ws2812task(myTask03Handle);//挂起任务
-..\BSP\bsp_commun.c(82): warning:  #223-D: function "Ws2812task" declared implicitly
-                          Ws2812task(myTask03Handle);	//恢复任务1
-..\BSP\bsp_commun.c: 2 warnings, 0 errors
-compiling bsp_ws2812.c...
-compiling event_groups.c...
-compiling port.c...
-compiling croutine.c...
-compiling heap_4.c...
-compiling list.c...
-compiling timers.c...
-compiling tasks.c...
-compiling bsp_tim.c...
-compiling queue.c...
-compiling bsp_upgrade.c...
-compiling esp8266.c...
-..\APP\esp8266.c(181): warning:  #1-D: last line of file ends without a newline
-  //}
-..\APP\esp8266.c: 1 warning, 0 errors
-compiling cmsis_os.c...
-compiling bsp_update.c...
-..\BSP\bsp_update.c(284): warning:  #223-D: function "wifi_state_led" declared implicitly
-  		  wifi_state_led(1);  
-..\BSP\bsp_update.c(289): warning:  #223-D: function "wifi_state_led" declared implicitly
-  		 wifi_state_led(0);
-..\BSP\bsp_update.c(323): warning:  #223-D: function "SoftReset" declared implicitly
-  									        SoftReset();
-..\BSP\bsp_update.c: 3 warnings, 0 errors
-compiling ws2812_app.c...
-..\APP\ws2812_app.c(36): warning:  #550-D: variable "rand_data"  was set but never used
-      uint16_t rand_data = 0, rand_color = 0;
-..\APP\ws2812_app.c(36): warning:  #177-D: variable "rand_color"  was declared but never referenced
-      uint16_t rand_data = 0, rand_color = 0;
-..\APP\ws2812_app.c(323): warning:  #223-D: function "DMA_WS2812_one_light" declared implicitly
-  	 DMA_WS2812_one_light(amount,color);
-..\APP\ws2812_app.c(366): warning:  #186-D: pointless comparison of unsigned integer with zero
-  	   if((led_location>=0)&&(led_location<4))
-..\APP\ws2812_app.c: 4 warnings, 0 errors
+../Src/freertos.c(100): warning:  #223-D: function "Lcd_Init" declared implicitly
+  	 Lcd_Init();		
+../Src/freertos.c(101): warning:  #223-D: function "Lcd_Clear" declared implicitly
+  	  Lcd_Clear(0xffff) ;
+../Src/freertos.c(102): warning:  #223-D: function "Gui_DrawFont_GBK16" declared implicitly
+  	 Gui_DrawFont_GBK16(35,20,BLUE,GRAY0,"wifi已断开");
+../Src/freertos.c(144): warning:  #223-D: function "system_mode_led" declared implicitly
+             system_mode_led(2);
+../Src/freertos.c(163): warning:  #223-D: function "system_mode_led" declared implicitly
+  						system_mode_led(3);
+../Src/freertos.c(170): warning:  #223-D: function "system_mode_led" declared implicitly
+  					   system_mode_led(3);
+../Src/freertos.c(179): warning:  #223-D: function "system_mode_led" declared implicitly
+  					system_mode_led(1);
+../Src/freertos.c(231): warning:  #223-D: function "system_mode_led" declared implicitly
+  					system_mode_led(1);
+../Src/freertos.c(232): warning:  #188-D: enumerated type mixed with another type
+  	DMA_WS2812_Ramp(LED_MAX, 255, 1);
+../Src/freertos.c(233): warning:  #188-D: enumerated type mixed with another type
+    DMA_WS2812_Ramp(LED_MAX, 255, 2);
+../Src/freertos.c(234): warning:  #188-D: enumerated type mixed with another type
+    DMA_WS2812_Ramp(LED_MAX, 255, 3);
+../Src/freertos.c(235): warning:  #188-D: enumerated type mixed with another type
+  	DMA_WS2812_Rampping(LED_MAX, 255, 2);				   
+../Src/freertos.c(244): warning:  #223-D: function "DMA_WS2812_circulation" declared implicitly
+    DMA_WS2812_circulation(LED_MAX);
+../Src/freertos.c(245): warning:  #223-D: function "DMA_WS2812_circulation_more" declared implicitly
+  	DMA_WS2812_circulation_more(LED_MAX,0);
+../Src/freertos.c: 15 warnings, 0 errors
 linking...
-Program Size: Code=39680 RO-data=672 RW-data=820 ZI-data=16548  
+Program Size: Code=38792 RO-data=5112 RW-data=788 ZI-data=18348  
 FromELF: creating hex file...
-After Build - User command #1: fromelf --bin --output   C:\Users\Fubiao.Guo\Desktop\BESTBEW\LED_CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.bin    C:\Users\Fubiao.Guo\Desktop\BESTBEW\LED_CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.AXF
-"LED_CONTROL\LED_CONTROL.axf" - 0 Error(s), 25 Warning(s).
+After Build - User command #1: fromelf --bin --output C:\Users\Fubiao.Guo\Desktop\BESTBEW\WS28128CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.bin C:\Users\Fubiao.Guo\Desktop\BESTBEW\WS28128CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.AXF
+"LED_CONTROL\LED_CONTROL.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -156,7 +86,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:11
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>C:\Users\Fubiao.Guo\Desktop\BESTBEW\LED_CONTROL\LED_CONTROL\\LED_CONTROL</ProjectName>
+<ProjectName>C:\Users\Fubiao.Guo\Desktop\BESTBEW\WS28128CONTROL\LED_CONTROL\\LED_CONTROL</ProjectName>
 <CMSIS>..\Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\Fubiao.Guo\STM32Cube\Repository\STM32Cube_FW_F1_V1.6.1\Drivers\CMSIS</HAL_Driver>
 
@@ -119,6 +119,12 @@
 						</file>
 						<file>
 							<name>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.c</name>
+						</file>
+						<file>
+							<name>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c</name>
+						</file>
+						<file>
+							<name>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi_ex.c</name>
 						</file>
 						<file>
 							<name>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c</name>

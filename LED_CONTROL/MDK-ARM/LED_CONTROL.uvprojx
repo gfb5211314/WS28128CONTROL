@@ -82,7 +82,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>fromelf --bin --output   C:\Users\Fubiao.Guo\Desktop\BESTBEW\LED_CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.bin    C:\Users\Fubiao.Guo\Desktop\BESTBEW\LED_CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.AXF</UserProg1Name>
+            <UserProg1Name>fromelf --bin --output C:\Users\Fubiao.Guo\Desktop\BESTBEW\WS28128CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.bin C:\Users\Fubiao.Guo\Desktop\BESTBEW\WS28128CONTROL\LED_CONTROL\MDK-ARM\LED_CONTROL\LED_CONTROL.AXF</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -274,7 +274,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8002000</StartAddress>
+                <StartAddress>0x8000000</StartAddress>
                 <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -338,7 +338,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;    ../Drivers/STM32F1xx_HAL_Driver/Inc;    ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;    ../Drivers/CMSIS/Device/ST/STM32F1xx/Include;    ../Drivers/CMSIS/Include;    ..\BSP;    ..\APP;   ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;   ../Middlewares/Third_Party/FreeRTOS/Source/include;   ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</IncludePath>
+              <IncludePath>../Inc;          ../Drivers/STM32F1xx_HAL_Driver/Inc;          ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;          ../Drivers/CMSIS/Device/ST/STM32F1xx/Include;          ../Drivers/CMSIS/Include;          ..\BSP;          ..\APP;         ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;         ../Middlewares/Third_Party/FreeRTOS/Source/include;         ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -457,6 +457,16 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f1xx_hal_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f1xx_hal_spi_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi_ex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -567,6 +577,21 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_upgrade.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_lcd_gui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_lcd_gui.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -581,6 +606,11 @@
               <FileName>ws2812_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\APP\ws2812_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\lcd_app.c</FilePath>
             </File>
           </Files>
         </Group>

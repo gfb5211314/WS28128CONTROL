@@ -39,7 +39,7 @@ int fputc(int ch, FILE* f)
 {
 
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 460800;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -58,7 +58,7 @@ int fputc(int ch, FILE* f)
 {
 
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 460800;
+  huart3.Init.BaudRate = 115200;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;

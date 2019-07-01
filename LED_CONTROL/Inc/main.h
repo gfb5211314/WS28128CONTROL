@@ -67,8 +67,8 @@
 #define CS_LCD_GPIO_Port GPIOA
 #define SCL_LCD_Pin GPIO_PIN_5
 #define SCL_LCD_GPIO_Port GPIOA
-#define CLK_LCD_Pin GPIO_PIN_6
-#define CLK_LCD_GPIO_Port GPIOA
+#define BLK_LCD_Pin GPIO_PIN_6
+#define BLK_LCD_GPIO_Port GPIOA
 #define SDA_LCD_Pin GPIO_PIN_7
 #define SDA_LCD_GPIO_Port GPIOA
 #define RES_LCD_Pin GPIO_PIN_0

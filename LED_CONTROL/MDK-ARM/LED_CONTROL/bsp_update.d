@@ -26,6 +26,7 @@ led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flas
 led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h
 led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h
+led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 led_control\bsp_update.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
@@ -53,3 +54,4 @@ led_control\bsp_update.o: ..\APP\ws2812_app.h
 led_control\bsp_update.o: ..\BSP\bsp_usart.h
 led_control\bsp_update.o: ..\APP\esp8266.h
 led_control\bsp_update.o: ..\BSP\bsp_upgrade.h
+led_control\bsp_update.o: ..\BSP\bsp_lcd_gui.h

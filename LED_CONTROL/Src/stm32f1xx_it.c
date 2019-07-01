@@ -37,6 +37,7 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
+#include "bsp_lcd_gui.h"
 
 /* USER CODE END 0 */
 
@@ -59,6 +60,7 @@ void NMI_Handler(void)
   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
 
   /* USER CODE END NonMaskableInt_IRQn 0 */
+  HAL_RCC_NMI_IRQHandler();
   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
 
   /* USER CODE END NonMaskableInt_IRQn 1 */
@@ -140,7 +142,7 @@ void DebugMon_Handler(void)
 
   /* USER CODE END DebugMonitor_IRQn 1 */
 }
-
+uint16_t tim_count=0;
 /**
 * @brief This function handles System tick timer.
 */
@@ -148,6 +150,8 @@ void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
+
+	
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   osSystickHandler();
@@ -222,6 +226,16 @@ void TIM2_IRQHandler(void)
 /**
 * @brief This function handles USART3 global interrupt.
 */
+//void USART3_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN USART3_IRQn 0 */
+
+//  /* USER CODE END USART3_IRQn 0 */
+//  HAL_UART_IRQHandler(&huart3);
+//  /* USER CODE BEGIN USART3_IRQn 1 */
+
+//  /* USER CODE END USART3_IRQn 1 */
+//}
 
 /* USER CODE BEGIN 1 */
 

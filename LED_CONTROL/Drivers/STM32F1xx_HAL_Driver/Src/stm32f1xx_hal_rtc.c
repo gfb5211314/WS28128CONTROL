@@ -713,6 +713,10 @@ HAL_StatusTypeDef HAL_RTC_SetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDat
     hrtc->DateToUpdate.Year  = sDate->Year;
     hrtc->DateToUpdate.Month = sDate->Month;
     hrtc->DateToUpdate.Date  = sDate->Date;
+		//添加
+// HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR2, hrtc->DateToUpdate.Year);
+// HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR3,  hrtc->DateToUpdate.Month );
+// HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR4,   hrtc->DateToUpdate.Date);
   }
   else
   {   
@@ -823,10 +827,15 @@ HAL_StatusTypeDef HAL_RTC_GetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDat
   sDate->Year     = hrtc->DateToUpdate.Year;
   sDate->Month    = hrtc->DateToUpdate.Month;
   sDate->Date     = hrtc->DateToUpdate.Date;
-
+//从备份寄存提取年月日，否则断电会丢失！！！
+ sDate->Year = HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR2);
+ sDate->Month= HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR3);
+ sDate->Date  = HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR4);
+ sDate->WeekDay = HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR5);
   /* Check the input parameters format */
   if(Format != RTC_FORMAT_BIN)
   {    
+		
     /* Convert the date structure parameters to BCD format */
     sDate->Year   = (uint8_t)RTC_ByteToBcd2(sDate->Year);
     sDate->Month  = (uint8_t)RTC_ByteToBcd2(sDate->Month);
@@ -1561,7 +1570,12 @@ static void RTC_DateUpdate(RTC_HandleTypeDef* hrtc, uint32_t DayElapsed)
   /* Get the current month and day */
   month = hrtc->DateToUpdate.Month;
   day = hrtc->DateToUpdate.Date;
-
+/*****************************************/
+	//从备份寄存器读年月日！！！
+year= HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR2);//cg
+month= HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR3);//cg
+day= HAL_RTCEx_BKUPRead(hrtc, RTC_BKP_DR4);//cg
+	/******************************************/
   for (loop = 0U; loop < DayElapsed; loop++)
   {
     if((month == 1U) || (month == 3U) || (month == 5U) || (month == 7U) || \
@@ -1637,6 +1651,13 @@ static void RTC_DateUpdate(RTC_HandleTypeDef* hrtc, uint32_t DayElapsed)
 
   /* Update day of the week */
   hrtc->DateToUpdate.WeekDay = RTC_WeekDayNum(year, month, day);
+	/************************** *************************************/
+//将年月日保存到备份寄存器，否则断电会丢失！！！
+ HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR2, year);
+ HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR3, month);
+ HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR4, day);
+//HAL_RTCEx_BKUPWrite(hrtc, RTC_BKP_DR5, hrtc->DateToUpdate.WeekDay);
+/*************************************************************/
 }
 
 /**

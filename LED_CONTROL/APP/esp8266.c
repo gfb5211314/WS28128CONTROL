@@ -6,17 +6,13 @@
 #include "stdlib.h"
 
 extern DMA_HandleTypeDef hdma_usart3_tx;
-typedef struct {
-	uint8_t  name[20];
-  uint8_t  password[20]; 
-}wifi_type;
+
 wifi_type   wifi8266;
 extern UART_HandleTypeDef huart3;
 extern USART_RECEIVETYPE  UsartType3;
 //uint8_t AT_CWSAP[]="AT+CWSAP=\"ATK_ESP8266\",\"12345678\",6,4\r\n";
 uint8_t AT_CWSAP[50];
-#define  wifi8266_name_addr      0x800e410                      //57K片区         
-#define  wifi8266_password_addr  0x800e440                      //57K片区
+
 /*********************************************
              需求分析
 						 1.用户手机连接WIFI，设置WIFI控制板WiFi名字和密码
@@ -83,12 +79,36 @@ uint8_t* esp8266_Capture_data(uint8_t *rec_data,uint8_t *head_buf)
 		return (uint8_t*)(strx+1);
 
 }
+uint8_t atk_8266_send_cmd_ack(uint8_t *cmd,uint8_t *ack,uint16_t waittime)
+{
+		uint8_t res=0; 
+ HAL_UART_Transmit_DMA(&huart3, (uint8_t*)cmd,strlen((char *)cmd));
+     while(__HAL_DMA_GET_COUNTER(&hdma_usart3_tx));
+	    HAL_Delay(waittime);
+	 	if(UsartType3.RX_flag)//接收到期待的应答结果
+			{
+				  if(strstr((const char*)UsartType3.RX_pData,(const char*)ack)==0)
+					{
+						res=1;
+						UsartType3.RX_Size=0;
+							return res;	
+					}
+					else
+					{
+						res=0;
+								return res;
+					}
+			
+
+					
+			} 
+
+}
 uint8_t atk_8266_send_cmd(uint8_t *cmd,uint8_t *ack,uint16_t waittime)
 {
 	uint8_t res=0; 
  HAL_UART_Transmit_DMA(&huart3, (uint8_t*)cmd,strlen((char *)cmd));
      while(__HAL_DMA_GET_COUNTER(&hdma_usart3_tx));
-
 	if(ack&&waittime)		//需要等待应答
 	{
 		while(--waittime)	//等待倒计时
@@ -96,16 +116,21 @@ uint8_t atk_8266_send_cmd(uint8_t *cmd,uint8_t *ack,uint16_t waittime)
 			HAL_Delay(10);
 			if(UsartType3.RX_flag)//接收到期待的应答结果
 			{
+//				printf("%s",UsartType3.RX_pData);
 				if(atk_8266_check_cmd(ack))
 				{
 					printf("ack:%s\r\n",(uint8_t*)ack);
+					UsartType3.RX_flag=0;
+					UsartType3.RX_Size=0;
 					break;//得到有效数据 
 				}
-					UsartType3.RX_Size=0;
+					
 			} 
 		}
 		if(waittime==0)res=1; 
 	}
+	UsartType3.RX_flag=0;
+	UsartType3.RX_Size=0;
 	return res;
 } 
 

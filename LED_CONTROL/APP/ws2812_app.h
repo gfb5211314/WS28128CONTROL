@@ -3,7 +3,7 @@
 #include "stm32f1xx_hal.h"
 #include   "bsp_ws2812.h"
 
-#define LED_MAX                229   //项目最大灯数
+#define LED_MAX                10   //项目最大灯数
 extern void ws2812_rand_light(volatile uint16_t  amount);
 
 /**

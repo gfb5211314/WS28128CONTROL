@@ -39,9 +39,9 @@ void ws2812_rand_light(volatile uint16_t  amount)
         rand_data = rand() % 256;
         rand_buff_data(amount, i);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((uint32_t)(amount*30/1000)+1);
+       osDelay((uint32_t)(amount*30/1000)+1);
 			   osDelay(50);
     }
 }
@@ -91,9 +91,9 @@ void  arrange_display_one_run(volatile uint16_t  amount, uint16_t color_type_n)
             }
 
             DMA_WS2812_Reset();
-            HAL_Delay(1);
+            osDelay(1);
             DMA_WS2812_light(amount);
-           HAL_Delay((uint32_t)(amount*30/1000)+1);
+           osDelay((uint32_t)(amount*30/1000)+1);
 
         }
     }
@@ -117,9 +117,9 @@ void  arrange_display_two_run(volatile uint16_t  amount)
             HLS_TO_RGB_ONE(&r, &g, &b, m * 15, 0.30, 1, i, ws28128_color_buf);
             HLS_TO_RGB_ONE(&r, &g, &b, m * 15, 0.30, 1, amount - i, ws28128_color_buf);
             DMA_WS2812_Reset();
-            HAL_Delay(1);
+            osDelay(1);
             DMA_WS2812_light(amount);
-        HAL_Delay((uint32_t)(amount*30/1000)+1);
+        osDelay((uint32_t)(amount*30/1000)+1);
 				}
    
 		
@@ -131,9 +131,9 @@ void  arrange_display_two_run(volatile uint16_t  amount)
             HLS_TO_RGB_ONE(&r, &g, &b, m * 15, 0.30, 1, amount / 2 - i, ws28128_color_buf);
             HLS_TO_RGB_ONE(&r, &g, &b, m * 15, 0.30, 1, amount / 2 + i, ws28128_color_buf);
             DMA_WS2812_Reset();
-            HAL_Delay(1);
+            osDelay(1);
             DMA_WS2812_light(amount);
-         HAL_Delay((uint32_t)(amount*30/1000)+1);
+         osDelay((uint32_t)(amount*30/1000)+1);
          }
 	}
 }
@@ -147,9 +147,9 @@ void DMA_WS2812_Rampping(volatile uint16_t  amount, uint8_t pwm, colors_kind col
 
         DMA_WS2812_SIN_More(amount, m, 1);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-        HAL_Delay((uint32_t)(amount*30/1000)+1);
+        osDelay((uint32_t)(amount*30/1000)+1);
 
 
     }
@@ -165,9 +165,9 @@ void  arrange_display(volatile uint16_t  amount)
 
         HLS_TO_RGB_ONE(&r, &g, &b, m * 1, 0.30, 1, m, ws28128_color_buf);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-        HAL_Delay((amount*30/1000)+1);
+        osDelay((amount*30/1000)+1);
 		
     }
     for(uint16_t m = 0; m < amount; m++)
@@ -175,9 +175,9 @@ void  arrange_display(volatile uint16_t  amount)
 
         HLS_TO_RGB_ONE(&r, &g, &b, m * 1.4, 0.30, 1, amount - m, ws28128_color_buf);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((amount*30/1000)+1);
+       osDelay((amount*30/1000)+1);
 	
     }
 
@@ -193,9 +193,9 @@ void  arrange_display_two(volatile uint16_t  amount)
         HLS_TO_RGB_ONE(&r, &g, &b, m * 1.4, 0.30, 1, m, ws28128_color_buf);
         HLS_TO_RGB_ONE(&r, &g, &b, m * 1.4, 0.30, 1, amount - m, ws28128_color_buf);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-        HAL_Delay((uint32_t)(amount*30/1000)+1);
+        osDelay((uint32_t)(amount*30/1000)+1);
 			
     }
     for(uint16_t m = 0; m < amount; m++)
@@ -204,9 +204,9 @@ void  arrange_display_two(volatile uint16_t  amount)
         HLS_TO_RGB_ONE(&r, &g, &b, m * 1.4, 0.30, 1, amount - m, ws28128_color_buf);
         HLS_TO_RGB_ONE(&r, &g, &b, m * 1.4, 0.30, 1, m, ws28128_color_buf);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((uint32_t)(amount*30/1000)+1);
+       osDelay((uint32_t)(amount*30/1000)+1);
 			 
     }
 
@@ -226,9 +226,9 @@ void DMA_WS2812_Rampping_1(volatile uint16_t  amount, uint8_t pwm, colors_kind c
         HLS_TO_RGB_ALL(&r, &g, &b, m * 1.4, 0.30, 1, amount, ws28128_color_buf);
 //		   	DMA_WS2812_SIN(amount, m,  2);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((uint32_t)(amount*30/1000)+1);
+       osDelay((uint32_t)(amount*30/1000)+1);
 
 
     }
@@ -243,18 +243,18 @@ void DMA_WS2812_Running(volatile uint16_t  amount)
 
         DMA_WS2812_data_shift(m);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((uint32_t)(amount*30/1000)+1);
+       osDelay((uint32_t)(amount*30/1000)+1);
     }
 		  for(uint16_t m = 0; m < amount; m++)
     {
 
         DMA_WS2812_data_shift(amount-m);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((uint32_t)(amount*30/1000)+1);
+       osDelay((uint32_t)(amount*30/1000)+1);
     }
 
 
@@ -267,9 +267,9 @@ void DMA_WS2812_Run(volatile uint16_t  amount)
 
         DMA_WS2812_data_shift_light(m, amount);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-          HAL_Delay((uint32_t)(amount*30/1000)+1);
+          osDelay((uint32_t)(amount*30/1000)+1);
 			 }
 	
        
@@ -280,9 +280,9 @@ void DMA_WS2812_Run(volatile uint16_t  amount)
      
         DMA_WS2812_data_shift_light(amount - m, amount);
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
         DMA_WS2812_light(amount);
-       HAL_Delay((uint32_t)(amount*30/1000)+1);
+       osDelay((uint32_t)(amount*30/1000)+1);
 			 
       }
 
@@ -303,9 +303,9 @@ void DMA_WS2812_Ramp(volatile uint16_t  amount, uint8_t pwm, colors_kind color)
      
 			 DMA_WS2812_SIN(amount, m, color);
   	     DMA_WS2812_Reset();
-          HAL_Delay(1);
+          osDelay(1);
         DMA_WS2812_light(amount);
-			HAL_Delay((uint32_t)(amount*30/1000)+1);
+			osDelay((uint32_t)(amount*30/1000)+1);
  
 		 
 
@@ -319,10 +319,10 @@ void DMA_WS2812_one_light_run(volatile uint16_t  amount, colors_kind color)
     reset_led_light();//添加这个白光会抖，注释掉白光很稳定
     
         DMA_WS2812_Reset();
-        HAL_Delay(1);
+        osDelay(1);
 	 DMA_WS2812_one_light(amount,color);
         DMA_WS2812_light(amount);
-        HAL_Delay((uint32_t)(amount*30/1000)+1);
+        osDelay((uint32_t)(amount*30/1000)+1);
 	  DMA_WS2812_Reset();
         
 			 
@@ -338,9 +338,9 @@ void DMA_WS2812_Running_more(volatile uint16_t  amount, volatile uint16_t run_nu
      
         DMA_WS2812_data_shift_more(m, 10);
         DMA_WS2812_Reset();
-         HAL_Delay(1);
+         osDelay(1);
         DMA_WS2812_light(amount);
-         HAL_Delay((uint32_t)(amount*30/1000)+1);
+         osDelay((uint32_t)(amount*30/1000)+1);
 			
 		}
     for(uint16_t m = 0; m < amount; m++)
@@ -348,9 +348,9 @@ void DMA_WS2812_Running_more(volatile uint16_t  amount, volatile uint16_t run_nu
      
         DMA_WS2812_data_shift_more(amount - m, 10);
         DMA_WS2812_Reset();
-         HAL_Delay(1);
+         osDelay(1);
         DMA_WS2812_light(amount);
-   HAL_Delay((uint32_t)(amount*30/1000)+1);
+   osDelay((uint32_t)(amount*30/1000)+1);
 			 
 		}
 }
@@ -488,10 +488,10 @@ void DMA_WS2812_circulation(volatile uint16_t  amount)
   
         DMA_WS2812_circulation_buf(m, 10);  //M代表数组第一例
         DMA_WS2812_Reset();
-      	   HAL_Delay(1);
+      	   osDelay(1);
         DMA_WS2812_light(amount);
-         HAL_Delay((uint32_t)(amount*30/1000)+1);
-			   HAL_Delay(10);
+         osDelay((uint32_t)(amount*30/1000)+1);
+			   osDelay(10);
 			
 		}
 	
@@ -921,10 +921,10 @@ void DMA_WS2812_circulation_more(volatile uint16_t  amount,colors_kind color)
   
         DMA_WS2812_circulation_buf_more(m, color);  //M代表数组第一例
         DMA_WS2812_Reset();
-      	   HAL_Delay(1);
+      	   osDelay(1);
         DMA_WS2812_light(amount);
          HAL_Delay((uint32_t)(amount*30/1000)+1);
-	         HAL_Delay(30);
+	         osDelay(30);
 			
 		}
 			memset(ws28128_color_buf, 0, sizeof(ws28128_color_buf));
@@ -934,10 +934,10 @@ void DMA_WS2812_circulation_more(volatile uint16_t  amount,colors_kind color)
   
         DMA_WS2812_circulation_buf_more(m-1, color);  //M代表数组第一例
         DMA_WS2812_Reset();
-      	   HAL_Delay(1);
+      	   osDelay(1);
         DMA_WS2812_light(amount);
          HAL_Delay((uint32_t)(amount*30/1000)+1);
-	         HAL_Delay(30);
+	         osDelay(30);
 			
 		}
 	
